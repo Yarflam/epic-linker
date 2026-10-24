@@ -4,9 +4,6 @@ Regenerate the Epic Games Launcher manifest files (`.item`) for games that are
 already on disk but have become "invisible" to the launcher (lost manifests,
 EOSH reconciliation wiping entries, moved folders…).
 
-Rust port of the original [`epic_relink.py`](epic_relink.py) with a native
-Windows GUI.
-
 > [!WARNING]
 > **Disclaimer — read before using**
 >
@@ -29,6 +26,12 @@ Windows GUI.
 > Found a bug? Something doesn't work on your setup? **Please open an issue** —
 > all reports are welcome — or **propose a pull request** if you'd like to
 > improve it!
+
+Rust application (screenshot):
+
+![Screenshot](https://github.com/user-attachments/assets/4f4ec982-772d-479e-a056-6d580de9cab7)
+
+See [Releases](https://github.com/Yarflam/epic-linker/releases) page.
 
 ## Features
 
