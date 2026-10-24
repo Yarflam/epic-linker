@@ -176,22 +176,27 @@ impl EpicLinkerApp {
     }
 
     fn poll_scan(&mut self) {
-        let Some(rx) = &self.rx else { return };
-        let mut done = false;
-        while let Ok(msg) = rx.try_recv() {
-            match msg {
-                ScanMsg::Log(l) => self.log.push(l),
-                ScanMsg::Game(g) => self.games.push(g),
-                ScanMsg::Done(ctx) => {
-                    self.ctx = Some(ctx);
-                    self.scanning = false;
-                    self.rx = None;
-                    done = true;
+        if self.rx.is_none() {
+            return;
+        }
+        let mut finished: Option<ScanContext> = None;
+        {
+            let rx = self.rx.as_ref().unwrap();
+            while let Ok(msg) = rx.try_recv() {
+                match msg {
+                    ScanMsg::Log(l) => self.log.push(l),
+                    ScanMsg::Game(g) => self.games.push(g),
+                    ScanMsg::Done(ctx) => {
+                        finished = Some(ctx);
+                        break;
+                    }
                 }
             }
-            if done {
-                break;
-            }
+        }
+        if let Some(ctx) = finished {
+            self.ctx = Some(ctx);
+            self.scanning = false;
+            self.rx = None;
         }
         if self.rx.is_none() && !self.scanning {
             self.games.sort_by(|a, b| {
@@ -413,7 +418,7 @@ impl eframe::App for EpicLinkerApp {
                         });
                     }
                 })
-                .body(|mut body| {
+                .body(|body| {
                     body.rows(text_height, rows.len(), |mut row| {
                         let i = row.index();
                         let (status, name, path, version, app, item_id, size, no_id) =

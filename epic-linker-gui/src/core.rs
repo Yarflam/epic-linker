@@ -1030,3 +1030,44 @@ pub fn relink(ctx: &mut ScanContext, games: &[&GameInfo]) -> Vec<String> {
 
     logs
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::path::Path;
+
+    #[test]
+    fn scan_real_game_folder() {
+        let base = Path::new(DEFAULT_GAMES_DIR);
+        if !base.is_dir() {
+            eprintln!("skip: no Epic games folder on this machine");
+            return;
+        }
+        let mut found = 0;
+        for e in std::fs::read_dir(base).unwrap().flatten() {
+            if let Some(info) = scan_game(&e.path()) {
+                found += 1;
+                println!(
+                    "{} | guid={} | app={} | version={} | exe={} | size={}",
+                    info.display_name, info.guid, info.app_name,
+                    info.version, info.launch_exe, info.install_size
+                );
+                assert!(!info.guid.is_empty());
+                assert!(!info.manifest_hash.is_empty());
+            }
+        }
+        assert!(found > 0, "no game with .egstore found");
+    }
+
+    #[test]
+    fn installed_dat_roundtrip() {
+        let p = Path::new(DEFAULT_INSTALLED_DAT);
+        if !p.is_file() {
+            eprintln!("skip: LauncherInstalled.dat not found");
+            return;
+        }
+        let (v, enc) = load_installed_dat(p).expect("should parse");
+        assert!(v.get("InstallationList").is_some());
+        println!("encoding: {:?}", enc);
+    }
+}
