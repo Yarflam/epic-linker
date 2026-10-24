@@ -1,0 +1,20 @@
+[package]
+name = "epic-linker-gui"
+version = "0.1.0"
+edition = "2021"
+description = "Interface graphique de relink des jeux Epic Games (port de epic_relink.py)"
+
+[dependencies]
+eframe = "0.31"
+egui_extras = "0.31"
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+sha1 = "0.10"
+flate2 = "1"
+base64 = "0.22"
+rfd = "0.15"
+
+[profile.release]
+opt-level = 2
+lto = true
+codegen-units = 1
