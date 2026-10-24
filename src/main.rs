@@ -283,7 +283,12 @@ impl eframe::App for EpicLinkerApp {
             ui.add_space(4.0);
         });
 
-        egui::TopBottomPanel::bottom("log_panel").resizable(true).show(ctx, |ui| {
+        egui::TopBottomPanel::bottom("log_panel")
+            .resizable(true)
+            .default_height(140.0)
+            .min_height(60.0)
+            .max_height(220.0)
+            .show(ctx, |ui| {
             ui.horizontal(|ui| {
                 ui.label(
                     egui::RichText::new("Log").strong(),
