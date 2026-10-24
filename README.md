@@ -37,7 +37,6 @@ survives `.mancpn` deletion so catalog IDs are never lost.
 ## Usage
 
 ```bash
-cd epic-linker-gui
 cargo build --release
 # run target\release\epic-linker-gui.exe
 ```
@@ -66,8 +65,7 @@ correct is a no-op.
 ## Project layout
 
 ```
-epic-linker.py          # original Python CLI (kept for reference)
-epic-linker-gui/
-  src/core.rs           # manifest parsing, .item/.egi generation, relink
-  src/main.rs           # egui/eframe GUI (English)
+epic_relink.py          # original Python CLI (kept for reference)
+src/core.rs             # manifest parsing, .item/.egi generation, relink
+src/main.rs             # egui/eframe GUI (English)
 ```

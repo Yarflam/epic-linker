@@ -314,6 +314,7 @@ impl eframe::App for EpicLinkerApp {
                 ui.add_space(2.0);
                 let mut remove: Option<usize> = None;
                 for (i, d) in self.dirs.iter().enumerate() {
+                    let available = std::path::Path::new(&d.path).is_dir();
                     ui.horizontal(|ui| {
                         if d.is_default {
                             ui.label("🔒");
@@ -322,9 +323,20 @@ impl eframe::App for EpicLinkerApp {
                                 egui::Label::new(egui::RichText::new(&d.path).weak()),
                             )
                             .on_hover_text("Default Epic Games install directory");
-                        } else {
+                        } else if available {
                             ui.label("📁");
                             ui.label(&d.path);
+                            if ui.small_button("✖").on_hover_text("Remove").clicked() {
+                                remove = Some(i);
+                            }
+                        } else {
+                            ui.label(
+                                egui::RichText::new("⚠️").color(egui::Color32::YELLOW),
+                            )
+                            .on_hover_text(
+                                "Directory not available (drive disconnected?) — kept for later",
+                            );
+                            ui.label(egui::RichText::new(&d.path).weak());
                             if ui.small_button("✖").on_hover_text("Remove").clicked() {
                                 remove = Some(i);
                             }
