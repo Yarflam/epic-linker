@@ -7,6 +7,29 @@ EOSH reconciliation wiping entries, moved folders…).
 Rust port of the original [`epic_relink.py`](epic_relink.py) with a native
 Windows GUI.
 
+> [!WARNING]
+> **Disclaimer — read before using**
+>
+> This is a relatively primitive, best-effort tool: it is **not affiliated with
+> or endorsed by Epic Games**, and it may not cover every possible setup or
+> edge case. It assumes the standard Epic Games Launcher data locations under
+> `C:\ProgramData\Epic\…` and the default install directory
+> (`C:\Program Files\Epic Games`). Non-default launcher paths, future launcher
+> updates or non-Windows systems are **not supported** and may simply not work.
+>
+> The software is provided "as is", without warranty of any kind. The author
+> is **not responsible** for any damage, data loss or file corruption that may
+> occur from using it — although backups (`.bak`) are made before every file is
+> touched, you use it **at your own risk**.
+>
+> Because the executable is **not code-signed**, Windows SmartScreen may warn
+> you or require extra rights when running it (and administrator rights are
+> needed to write to `C:\ProgramData`).
+>
+> Found a bug? Something doesn't work on your setup? **Please open an issue** —
+> all reports are welcome — or **propose a pull request** if you'd like to
+> improve it!
+
 ## Features
 
 - **Library directories** — the default Epic install directory
